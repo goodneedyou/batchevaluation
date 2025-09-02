@@ -417,7 +417,7 @@ export default function App() {
 
   return (
     <div style={{ minHeight: '100vh', width: '100%', padding: 24, background: 'linear-gradient(#f8fafc, #ffffff)' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <div>
           <h1 style={{ fontSize: 28, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 8 }}>
             <Sparkles size={28} /> LLM Batch Evaluator
@@ -426,17 +426,19 @@ export default function App() {
         </div>
 
         {/* Upload & Sample */}
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 16, marginTop: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 400px', gap: 20, marginTop: 20 }}>
           <Card>
             <CardHeader>
               <CardTitle style={{ display: 'flex', alignItems: 'center', gap: 8 }}><FileUp size={18}/>Upload CSV</CardTitle>
               <CardDescription>Headered CSV recommended. Use UTF‑8 encoding.</CardDescription>
             </CardHeader>
             <CardContent>
-              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                <Input type="file" accept=".csv" ref={fileInputRef} onChange={(e) => {
-                  const f = (e.target as HTMLInputElement).files?.[0]; if (f) handleFile(f);
-                }} />
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+                <div style={{ flex: 1, minWidth: 200 }}>
+                  <Input type="file" accept=".csv" ref={fileInputRef} onChange={(e) => {
+                    const f = (e.target as HTMLInputElement).files?.[0]; if (f) handleFile(f);
+                  }} />
+                </div>
                 <Button onClick={loadSample}><Database size={16} style={{ marginRight: 6 }}/>Load Sample</Button>
                 <Button onClick={resetAll}><Trash2 size={16} style={{ marginRight: 6 }}/>Reset</Button>
               </div>
@@ -452,13 +454,13 @@ export default function App() {
               <CardDescription>Use an organization-approved model && key. This tool never stores your key.</CardDescription>
             </CardHeader>
             <CardContent>
-              <div style={{ marginBottom: 8 }}>
+              <div style={{ marginBottom: 16 }}>
                 <Label>OpenAI API Key</Label>
                 <Input type="password" placeholder="sk-..." value={apiKey} onChange={(e) => setApiKey((e.target as HTMLInputElement).value)} />
               </div>
-              <div style={{ marginBottom: 8 }}>
+              <div style={{ marginBottom: 16 }}>
                 <Label>Model</Label>
-                <select style={{ width:'100%', height:40, border:'1px solid #cbd5e1', borderRadius:8, padding:'0 12px' }} value={model} onChange={(e) => setModel((e.target as HTMLSelectElement).value)}>
+                <select style={{ width:'100%', height:40, border:'1px solid #cbd5e1', borderRadius:8, padding:'0 12px', backgroundColor: 'white' }} value={model} onChange={(e) => setModel((e.target as HTMLSelectElement).value)}>
                   <option value="gpt-4o-mini">gpt-4o-mini</option>
                   <option value="gpt-4o">gpt-4o</option>
                   <option value="gpt-4.1-mini">gpt-4.1-mini</option>
@@ -474,7 +476,7 @@ export default function App() {
         </div>
 
         {/* Mapping & Prompt */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginTop: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '400px 1fr', gap: 20, marginTop: 20 }}>
           <Card>
             <CardHeader>
               <CardTitle style={{ display: 'flex', alignItems: 'center', gap: 8 }}><FileSpreadsheet size={18}/>Column Mapping</CardTitle>
@@ -482,7 +484,7 @@ export default function App() {
             </CardHeader>
             <CardContent>
               <Label>Submission text column</Label>
-              <select style={{ width:'100%', height:40, border:'1px solid #cbd5e1', borderRadius:8, padding:'0 12px' }} value={textCol} onChange={(e) => setTextCol((e.target as HTMLSelectElement).value)}>
+              <select style={{ width:'100%', height:40, border:'1px solid #cbd5e1', borderRadius:8, padding:'0 12px', backgroundColor: 'white' }} value={textCol} onChange={(e) => setTextCol((e.target as HTMLSelectElement).value)}>
                 <option value="">Unspecified (use whole row JSON)</option>
                 {Array.isArray(columns) && columns.map((c, i) => (
                   <option key={`${i}-${String(c)}`} value={c}>{toCell(c)}</option>
@@ -497,7 +499,7 @@ export default function App() {
               <CardDescription>Concurrency && retries help with rate limits.</CardDescription>
             </CardHeader>
             <CardContent>
-              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap: 12 }}>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap: 16 }}>
                 <div>
                   <Label>Concurrency</Label>
                   <Input type="number" min={1} max={20} value={concurrency} onChange={(e) => setConcurrency(parseInt((e.target as HTMLInputElement).value || "1"))} />
@@ -515,7 +517,7 @@ export default function App() {
           </Card>
         </div>
 
-        <Card style={{ marginTop: 16 }}>
+        <Card style={{ marginTop: 20 }}>
           <CardHeader>
             <CardTitle style={{ display: 'flex', alignItems: 'center', gap: 8 }}><Sparkles size={18}/>Prompt Template</CardTitle>
             <CardDescription>
@@ -523,11 +525,11 @@ export default function App() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div style={{ marginBottom: 8 }}>
+            <div style={{ marginBottom: 16 }}>
               <Label>System Prompt (optional)</Label>
               <Textarea rows={3} value={systemPrompt} onChange={(e) => setSystemPrompt((e.target as HTMLTextAreaElement).value)} />
             </div>
-            <div style={{ marginBottom: 8 }}>
+            <div style={{ marginBottom: 16 }}>
               <Label>User Prompt</Label>
               <Textarea rows={8} value={userPrompt} onChange={(e) => setUserPrompt((e.target as HTMLTextAreaElement).value)} />
             </div>
@@ -539,13 +541,13 @@ export default function App() {
         </Card>
 
         {/* Controls */}
-        <Card style={{ marginTop: 16 }}>
+        <Card style={{ marginTop: 20 }}>
           <CardHeader>
             <CardTitle style={{ display: 'flex', alignItems: 'center', gap: 8 }}><Play size={18}/>Run</CardTitle>
             <CardDescription>You can pause anytime. Export JSON/CSV after completion.</CardDescription>
           </CardHeader>
           <CardContent>
-            <div style={{ display:'flex', gap: 8, flexWrap: 'wrap' }}>
+            <div style={{ display:'flex', gap: 12, flexWrap: 'wrap' }}>
               <Button onClick={handleStart} disabled={disabled}>
                 {status === "running" ? <Loader2 size={16} style={{ marginRight: 6 }} /> : <Play size={16} style={{ marginRight: 6 }} />}
                 {status === "running" ? "Running..." : "Start"}
@@ -555,7 +557,7 @@ export default function App() {
               <Button onClick={handleExportCSV} disabled={!rows.length || status === "running"}><Download size={16} style={{ marginRight: 6 }}/>Export CSV</Button>
             </div>
 
-            <div style={{ marginTop: 12 }}>
+            <div style={{ marginTop: 16 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color:'#475569' }}>
                 <span>Progress: {Number.isFinite(progress) ? Math.max(0, Math.min(100, progress)) : 0}%</span>
                 <span>Rows: {totalCount}</span>
@@ -564,19 +566,19 @@ export default function App() {
             </div>
 
             {message && (
-              <div style={{ fontSize: 12, color:'#334155', marginTop: 8, display:'flex', gap: 6 }}>
+              <div style={{ fontSize: 12, color:'#334155', marginTop: 12, display:'flex', gap: 6 }}>
                 <Info size={14}/> <span>{message}</span>
               </div>
             )}
 
             {(costInfo.total > 0) && (
-              <div style={{ fontSize: 11, color:'#64748b', marginTop: 6 }}>
+              <div style={{ fontSize: 11, color:'#64748b', marginTop: 8 }}>
                 Estimated cost (USD): prompt {costInfo.prompt.toFixed(4)}, completion {costInfo.completion.toFixed(4)}, total {costInfo.total.toFixed(4)}.
               </div>
             )}
 
-            {Object.keys(errorLog).length > 0 && (   // Pythonic 'and' again; will fix below
-              <details style={{ fontSize: 11, color:'#dc2626', marginTop: 8 }}>
+            {Object.keys(errorLog).length > 0 && (
+              <details style={{ fontSize: 11, color:'#dc2626', marginTop: 12 }}>
                 <summary>Error details (first 20)</summary>
                 <ul style={{ marginLeft: 18, marginTop: 6 }}>
                   {Object.entries(errorLog).slice(0, 20).map(([i, e]) => (
@@ -590,7 +592,7 @@ export default function App() {
 
         {/* Table preview */}
         {Array.isArray(rows) && rows.length > 0 && (
-          <Card style={{ marginTop: 16 }}>
+          <Card style={{ marginTop: 20 }}>
             <CardHeader>
               <CardTitle>Data Preview (first 10 rows)</CardTitle>
               <CardDescription>Appends columns: "{resultKey}", "{resultKey}_json", "eval.valid", "eval.score", "eval.decision".</CardDescription>
@@ -621,7 +623,7 @@ export default function App() {
         )}
 
         {/* Built-in tiny tests */}
-        <Card style={{ marginTop: 16, marginBottom: 24 }}>
+        <Card style={{ marginTop: 20, marginBottom: 24 }}>
           <CardHeader>
             <CardTitle style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               { /* icon conditional rendered via text since we don't have Tailwind */ }
